@@ -13,7 +13,34 @@ var PLANS = [
 var st = {step:1, car:null, plan:null};
 var $ = function(id){return document.getElementById(id)};
 var rs = function(n){return "₹" + n.toLocaleString("en-IN")};
+var mapUrl = function(pickup,address,city){
+  return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent([pickup,address,city].join(", "));
+};
 var names = ["Choose Car","Choose Course","Address","Done"];
+
+function sendEnquiry(fields,buttonId,errorId,onSuccess,buttonText){
+  var button=$(buttonId), error=$(errorId);
+  button.disabled=true;
+  button.textContent="Sending...";
+  error.classList.add("hidden");
+  fetch("https://formsubmit.co/ajax/"+OWNER_EMAIL,{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify(fields)
+  }).then(function(response){
+    return response.json().then(function(data){
+      if(!response.ok||(data.success!==true&&data.success!=="true"))throw new Error("Email service rejected the enquiry");
+      return data;
+    });
+  }).then(function(){
+    onSuccess();
+  }).catch(function(){
+    error.textContent="Your request could not be sent. Please check your internet connection and try again.";
+    error.classList.remove("hidden");
+    button.disabled=false;
+    button.textContent=buttonText;
+  });
+}
 
 function renderSteps(){
   $("steps").innerHTML = names.map(function(t,i){
@@ -69,24 +96,33 @@ function update(){
   if(st.step===3)renderSum();
   renderSteps();
 }
-function mailLink(){
+function bookingDetails(){
   var s = summary();
-  var body = "New driving lesson booking\n\n"+
-    "Car: "+s.car+"\nCourse: "+s.plan+"\nFee: "+rs(s.price)+"\n\n"+
-    "Name: "+$("name").value.trim()+"\nMobile: "+$("phone").value.trim()+"\n"+
-    "Address: "+$("addr").value.trim()+"\nCity/Area: "+$("city").value.trim()+"\n"+
-    "Start date: "+$("date").value+"\nTime slot: "+($("slot").value.trim()||"Any")+"\n\n"+
-    "Payment: in advance when the vehicle arrives.";
-  return "mailto:"+OWNER_EMAIL+"?subject="+encodeURIComponent("Driving Lesson Booking – "+s.car+" ("+s.plan+")")+"&body="+encodeURIComponent(body);
+  var pickup=$("pickup").value.trim(), address=$("addr").value.trim(), city=$("city").value.trim();
+  return {
+    _subject:"Driving Lesson Booking - "+s.car+" ("+s.plan+")",
+    Car:s.car,
+    Course:s.plan,
+    Fee:rs(s.price),
+    Name:$("name").value.trim(),
+    Mobile:$("phone").value.trim(),
+    "Pickup spot / landmark":pickup,
+    "Full address (Google Maps)":address,
+    "City / Area":city,
+    "Google Maps link":mapUrl(pickup,address,city),
+    "Start date":$("date").value,
+    "Time slot":$("slot").value.trim()||"Any",
+    Payment:"In advance when the vehicle arrives."
+  };
 }
 $("next").onclick=function(){
   if(st.step<3){st.step++;update();window.scrollTo(0,0);return;}
-  if(!validateFields(["name","phone","addr","city","date"])){return;}
-  st.step=4;update();window.scrollTo(0,0);
-  window.location.href = mailLink();
+  if(!validateFields(["name","phone","pickup","addr","city","date"])){return;}
+  sendEnquiry(bookingDetails(),"next","sendError",function(){
+    st.step=4;update();window.scrollTo(0,0);
+  },"Submit booking ✉️");
 };
 $("back").onclick=function(){if(st.step>1){st.step--;update();}};
-$("again").onclick=function(e){e.preventDefault();window.location.href=mailLink();};
 $("restart").onclick=function(){st={step:1,car:null,plan:null};$("f").reset();renderCars();update();};
 var LTYPES=["New Learner’s License","Permanent License","License Renewal","Duplicate / Address Change"];
 var LVEH=["Two-wheeler","Car","Both"];
@@ -98,8 +134,19 @@ function renderL(){
   Array.prototype.forEach.call($("lveh").children,function(b){b.onclick=function(){lv=+b.dataset.i;renderL();}});
 }
 function lMail(){
-  var body="New driving license request\n\nService: "+LTYPES[lt]+"\nVehicle: "+LVEH[lv]+"\n\nName: "+$("lname").value.trim()+"\nMobile: "+$("lphone").value.trim()+"\nAddress: "+$("laddr").value.trim()+"\nCity/Area: "+$("lcity").value.trim()+"\nNote: "+($("lnote").value.trim()||"-");
-  return "mailto:"+OWNER_EMAIL+"?subject="+encodeURIComponent("Driving License Request – "+LTYPES[lt])+"&body="+encodeURIComponent(body);
+  var pickup=$("lpickup").value.trim(), address=$("laddr").value.trim(), city=$("lcity").value.trim();
+  return {
+    _subject:"Driving License Request - "+LTYPES[lt],
+    Service:LTYPES[lt],
+    Vehicle:LVEH[lv],
+    Name:$("lname").value.trim(),
+    Mobile:$("lphone").value.trim(),
+    "Pickup spot / landmark":pickup,
+    "Full address (Google Maps)":address,
+    "City / Area":city,
+    "Google Maps link":mapUrl(pickup,address,city),
+    Note:$("lnote").value.trim()||"-"
+  };
 }
 function tab(lic){
   $("tabDrive").classList.toggle("on",!lic);$("tabLic").classList.toggle("on",lic);
@@ -110,11 +157,11 @@ function tab(lic){
 $("tabDrive").onclick=function(){tab(false)};
 $("tabLic").onclick=function(){tab(true)};
 $("lsubmit").onclick=function(){
-  if(!validateFields(["lname","lphone","laddr","lcity"]))return;
-  $("lic").classList.add("hidden");$("lok").classList.remove("hidden");window.scrollTo(0,0);
-  window.location.href=lMail();
+  if(!validateFields(["lname","lphone","lpickup","laddr","lcity"]))return;
+  sendEnquiry(lMail(),"lsubmit","licenseSendError",function(){
+    $("lic").classList.add("hidden");$("lok").classList.remove("hidden");window.scrollTo(0,0);
+  },"Submit request ✉️");
 };
-$("lagain").onclick=function(e){e.preventDefault();window.location.href=lMail();};
 $("lrestart").onclick=function(){$("lf").reset();$("lok").classList.add("hidden");$("lic").classList.remove("hidden");};
 renderL();
 renderCars();update();

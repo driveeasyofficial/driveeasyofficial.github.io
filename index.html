@@ -40,21 +40,22 @@
       <label>Full name<input id="name" required autocomplete="name"></label>
       <label>Mobile number<input id="phone" type="tel" required autocomplete="tel" inputmode="tel"></label>
     </div>
-    <label>Full address (where the car should arrive)<textarea id="addr" rows="3" required autocomplete="street-address"></textarea></label>
+    <label>Pickup spot / nearby landmark (findable on Google Maps)<input id="pickup" required placeholder="Enter a place or landmark shown on Google Maps"></label>
+    <label>Full address as shown on Google Maps<textarea id="addr" rows="3" required autocomplete="street-address" placeholder="Copy the full address shown for your pickup spot in Google Maps"></textarea></label>
     <div class="row">
       <label>City / Area<input id="city" required></label>
       <label>Preferred start date<input id="date" type="date" required></label>
     </div>
     <label>Preferred time slot<input id="slot" placeholder="e.g. 7:00 AM"></label>
     <div class="note"><b>Payment:</b> Pay in advance when the vehicle arrives at your address, before your first lesson starts. Nothing is charged online.</div>
+    <p id="sendError" class="hidden" role="alert"></p>
   </form>
 </section>
 
 <section id="s4" class="hidden ok">
   <div class="big">✅</div>
   <h2>Almost done!</h2>
-  <p>Your email app should have opened with your booking details. Press <b>Send</b> in it to complete your request, and we will contact you to confirm.</p>
-  <p class="sub">Nothing opened? <a id="again" href="#">Tap here to open it again</a>.</p>
+  <p>Your booking request has been sent. We will contact you to confirm.</p>
   <button class="btn ghost" id="restart">Make another booking</button>
 </section>
 
@@ -76,9 +77,11 @@
       <label>Full name<input id="lname" required autocomplete="name"></label>
       <label>Mobile number<input id="lphone" type="tel" required autocomplete="tel" inputmode="tel"></label>
     </div>
-    <label>Full address<textarea id="laddr" rows="3" required autocomplete="street-address"></textarea></label>
+    <label>Pickup spot / nearby landmark (findable on Google Maps)<input id="lpickup" required placeholder="Enter a place or landmark shown on Google Maps"></label>
+    <label>Full address as shown on Google Maps<textarea id="laddr" rows="3" required autocomplete="street-address" placeholder="Copy the full address shown for your pickup spot in Google Maps"></textarea></label>
     <label>City / Area<input id="lcity" required></label>
     <label>Anything else we should know? (optional)<textarea id="lnote" rows="2"></textarea></label>
+    <p id="licenseSendError" class="hidden" role="alert"></p>
     <div class="nav" style="margin:8px 0 40px;justify-content:flex-end">
       <button type="button" class="btn" id="lsubmit">Submit request ✉️</button>
     </div>
@@ -88,8 +91,7 @@
 <section id="lok" class="hidden ok">
   <div class="big">✅</div>
   <h2>Almost done!</h2>
-  <p>Your email app should have opened with your license request. Press <b>Send</b> to complete it, and we will contact you soon.</p>
-  <p class="sub">Nothing opened? <a id="lagain" href="#">Tap here to open it again</a>.</p>
+  <p>Your license request has been sent. We will contact you soon.</p>
   <button class="btn ghost" id="lrestart">Make another request</button>
 </section>
 <footer>DriveEasy Driving School · Learn driving with confidence</footer>
