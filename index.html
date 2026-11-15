@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DriveEasy Driving School – Learn Driving at Your Doorstep</title>
+<link rel="icon" href="favicon.ico"><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css"><link rel="stylesheet" href="css/animations.css">
+</head>
+<body><nav class="site-nav"><div class="wrap"><a class="logo" href="index.html">Drive<span>Easy</span></a><button id="menuBtn" aria-label="Menu">☰</button><div id="menu"><a href="index.html" class="active">Home</a><a href="pages/about.html">About</a><a href="pages/courses.html">Courses</a><a href="pages/services.html">Services</a><a href="pages/gallery.html">Gallery</a><a href="pages/contact.html">Contact</a></div></div></nav>
+<div class="wrap">
+<header class="hero">
+  <h1>Learn Driving at Your <span>Doorstep</span></h1>
+  <p>Pick your car, choose a course that fits your schedule, and share your address. We bring the car to you.</p>
+</header>
+
+<div class="tabs">
+  <button type="button" class="tab on" id="tabDrive">🚗 Learn Driving</button>
+  <button type="button" class="tab" id="tabLic">🪪 Driving License</button>
+</div>
+
+<div class="steps" id="steps"></div>
+
+<main>
+<section id="s1">
+  <h2>1. Choose your car</h2>
+  <div class="grid" id="cars"></div>
+</section>
+
+<section id="s2" class="hidden">
+  <h2>2. Choose your course</h2>
+  <div class="plans" id="plans"></div>
+  <div class="note" id="planNote"></div>
+</section>
+
+<section id="s3" class="hidden">
+  <h2>3. Your address &amp; details</h2>
+  <div class="summary" id="sum"></div>
+  <form id="f" novalidate>
+    <div class="row">
+      <label>Full name<input id="name" required autocomplete="name"></label>
+      <label>Mobile number<input id="phone" type="tel" required autocomplete="tel" inputmode="tel"></label>
+    </div>
+    <label>Full address (where the car should arrive)<textarea id="addr" rows="3" required autocomplete="street-address"></textarea></label>
+    <div class="row">
+      <label>City / Area<input id="city" required></label>
+      <label>Preferred start date<input id="date" type="date" required></label>
+    </div>
+    <label>Preferred time slot<input id="slot" placeholder="e.g. 7:00 AM"></label>
+    <div class="note"><b>Payment:</b> Pay in advance when the vehicle arrives at your address, before your first lesson starts. Nothing is charged online.</div>
+  </form>
+</section>
+
+<section id="s4" class="hidden ok">
+  <div class="big">✅</div>
+  <h2>Almost done!</h2>
+  <p>Your email app should have opened with your booking details. Press <b>Send</b> in it to complete your request, and we will contact you to confirm.</p>
+  <p class="sub">Nothing opened? <a id="again" href="#">Tap here to open it again</a>.</p>
+  <button class="btn ghost" id="restart">Make another booking</button>
+</section>
+
+<div class="nav" id="nav">
+  <button class="btn ghost" id="back">← Back</button>
+  <button class="btn" id="next">Continue →</button>
+</div>
+</main>
+
+<section id="lic" class="hidden">
+  <h2>Driving License Service</h2>
+  <p class="sub">We help you get your driving license. Tell us what you need and our team will call you with the fees and required documents.</p>
+  <form id="lf" novalidate>
+    <label>What do you need?</label>
+    <div class="opts" id="ltype"></div>
+    <label style="margin-top:6px">Vehicle type</label>
+    <div class="opts" id="lveh"></div>
+    <div class="row">
+      <label>Full name<input id="lname" required autocomplete="name"></label>
+      <label>Mobile number<input id="lphone" type="tel" required autocomplete="tel" inputmode="tel"></label>
+    </div>
+    <label>Full address<textarea id="laddr" rows="3" required autocomplete="street-address"></textarea></label>
+    <label>City / Area<input id="lcity" required></label>
+    <label>Anything else we should know? (optional)<textarea id="lnote" rows="2"></textarea></label>
+    <div class="nav" style="margin:8px 0 40px;justify-content:flex-end">
+      <button type="button" class="btn" id="lsubmit">Submit request ✉️</button>
+    </div>
+  </form>
+</section>
+
+<section id="lok" class="hidden ok">
+  <div class="big">✅</div>
+  <h2>Almost done!</h2>
+  <p>Your email app should have opened with your license request. Press <b>Send</b> to complete it, and we will contact you soon.</p>
+  <p class="sub">Nothing opened? <a id="lagain" href="#">Tap here to open it again</a>.</p>
+  <button class="btn ghost" id="lrestart">Make another request</button>
+</section>
+<footer>DriveEasy Driving School · Learn driving with confidence</footer>
+</div>
+
+<script src="js/form-validation.js"></script><script src="js/main.js"></script><script src="js/navigation.js"></script>
+</body>
+</html>

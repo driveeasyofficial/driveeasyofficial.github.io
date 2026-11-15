@@ -1,0 +1,7 @@
+@media(max-width:700px){
+  #menuBtn{display:block}
+  #menu{display:none;position:absolute;left:0;right:0;top:100%;background:var(--card);flex-direction:column;padding:10px 16px;border-bottom:1px solid var(--line)}
+  #menu.open{display:flex}
+  .site-nav{position:sticky}
+  .site-nav .wrap{position:relative}
+}

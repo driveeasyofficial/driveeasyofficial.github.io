@@ -1,0 +1,3 @@
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card,.page,.hero,.summary{animation:fadeUp .35s ease both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
