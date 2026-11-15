@@ -40,6 +40,7 @@
       <label>Full name<input id="name" required autocomplete="name"></label>
       <label>Mobile number<input id="phone" type="tel" required autocomplete="tel" inputmode="tel"></label>
     </div>
+    <label>Email address<input id="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
     <label>Pickup spot / nearby landmark (findable on Google Maps)<input id="pickup" required placeholder="Enter a place or landmark shown on Google Maps"></label>
     <label>Full address as shown on Google Maps<textarea id="addr" rows="3" required autocomplete="street-address" placeholder="Copy the full address shown for your pickup spot in Google Maps"></textarea></label>
     <div class="row">
@@ -47,7 +48,7 @@
       <label>Preferred start date<input id="date" type="date" required></label>
     </div>
     <label>Preferred time slot<input id="slot" placeholder="e.g. 7:00 AM"></label>
-    <div class="note"><b>Payment:</b> Pay in advance when the vehicle arrives at your address, before your first lesson starts. Nothing is charged online.</div>
+    <div class="note"><b>Payment:</b> After confirming your booking, we’ll email you the course details, lesson timings, and a QR code for payment.</div>
     <p id="sendError" class="hidden" role="alert"></p>
   </form>
 </section>
@@ -55,7 +56,7 @@
 <section id="s4" class="hidden ok">
   <div class="big">✅</div>
   <h2>Almost done!</h2>
-  <p>Your booking request has been sent. We will contact you to confirm.</p>
+  <p>Your booking request has been sent. After we confirm it, we’ll email you the course details, lesson timings, and payment QR code.</p>
   <button class="btn ghost" id="restart">Make another booking</button>
 </section>
 
@@ -77,7 +78,7 @@
       <label>Full name<input id="lname" required autocomplete="name"></label>
       <label>Mobile number<input id="lphone" type="tel" required autocomplete="tel" inputmode="tel"></label>
     </div>
-    <label>Pickup spot / nearby landmark (findable on Google Maps)<input id="lpickup" required placeholder="Enter a place or landmark shown on Google Maps"></label>
+    <label>Email address<input id="lemail" type="email" required autocomplete="email" placeholder="you@example.com"></label>
     <label>Full address as shown on Google Maps<textarea id="laddr" rows="3" required autocomplete="street-address" placeholder="Copy the full address shown for your pickup spot in Google Maps"></textarea></label>
     <label>City / Area<input id="lcity" required></label>
     <label>Anything else we should know? (optional)<textarea id="lnote" rows="2"></textarea></label>
