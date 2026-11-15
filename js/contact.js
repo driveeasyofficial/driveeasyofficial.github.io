@@ -1,6 +1,6 @@
 // Contact page form -> opens email app addressed to the school
 (function(){
-  var OWNER_EMAIL="ssachinsharma0801@gmail.com";
+  var OWNER_EMAIL="ssachinsharma0108@gmail.com";
   var btn=document.getElementById("csubmit");
   if(!btn)return;
   function link(){
