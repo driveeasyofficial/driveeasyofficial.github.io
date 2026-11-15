@@ -1,10 +1,10 @@
 var OWNER_EMAIL = "ssachinsharma0801@gmail.com";
 var SCHOOL = "DriveEasy Driving School";
 var CARS = [
-  {n:"Wagon R", p:4000},
-  {n:"Baleno", p:5000},
-  {n:"Brezza", p:6000},
-  {n:"KIA", p:6000}
+  {n:"Wagon R", p7:4000, p15:4500},
+  {n:"Baleno", p7:5000, p15:5500},
+  {n:"Brezza", p7:6000, p15:6500},
+  {n:"KIA", p7:6000, p15:6500}
 ];
 var PLANS = [
   {id:"15", days:15, mins:30, label:"Relaxed", desc:"Short daily practice", total:"7.5 hours"},
@@ -24,8 +24,8 @@ function renderSteps(){
 function renderCars(){
   $("cars").innerHTML = CARS.map(function(c,i){
     return '<button type="button" class="card '+(st.car===i?"sel":"")+'" data-i="'+i+'">'+
-      '<div class="car">🚗 '+c.n+'</div><div class="price">'+rs(c.p)+'</div>'+
-      '<div class="sub">Course fee · pick 7 or 15 days next</div></button>';
+      '<div class="car">🚗 '+c.n+'</div><div class="price">From '+rs(c.p7)+'</div>'+
+      '<div class="sub">7-day course · pick 7 or 15 days next</div></button>';
   }).join("");
   Array.prototype.forEach.call($("cars").children,function(b){
     b.onclick=function(){st.car=+b.dataset.i;st.plan=null;renderCars();update();};
@@ -35,11 +35,12 @@ function renderPlans(){
   if(st.car===null)return;
   var c = CARS[st.car];
   $("plans").innerHTML = PLANS.map(function(p,i){
+    var price = p.days===15?c.p15:c.p7;
     return '<button type="button" class="card plan '+(st.plan===i?"sel":"")+'" data-i="'+i+'">'+
       '<span class="tag">'+p.label+'</span>'+
       '<h3>'+p.days+' Days · '+p.mins+(p.mins===60?" Hour":" Min")+' / day</h3>'+
       '<div class="sub">'+p.desc+'</div>'+
-      '<div class="price">'+rs(c.p)+'</div>'+
+      '<div class="price">'+rs(price)+'</div>'+
       '<ul><li>Car<b>'+c.n+'</b></li>'+
       '<li>Duration<b>'+p.days+' days</b></li>'+
       '<li>Daily lesson<b>'+(p.mins===60?"1 hour":"30 minutes")+'</b></li>'+
@@ -48,11 +49,11 @@ function renderPlans(){
   Array.prototype.forEach.call($("plans").children,function(b){
     b.onclick=function(){st.plan=+b.dataset.i;renderPlans();update();};
   });
-  $("planNote").innerHTML = "<b>The difference:</b> 15 days is 30 minutes a day, spread out gently. 7 days is 1 hour a day, so you finish in half the time. The price for "+c.n+" is "+rs(c.p)+" either way.";
+  $("planNote").innerHTML = "<b>The difference:</b> 15 days is 30 minutes a day, spread out gently ("+rs(c.p15)+"). 7 days is 1 hour a day, so you finish in half the time ("+rs(c.p7)+").";
 }
 function summary(){
   var c = CARS[st.car], p = PLANS[st.plan];
-  return {car:c.n, price:c.p, plan:p.days+" days, "+(p.mins===60?"1 hour":"30 min")+" per day"};
+  return {car:c.n, price:p.days===15?c.p15:c.p7, plan:p.days+" days, "+(p.mins===60?"1 hour":"30 min")+" per day"};
 }
 function renderSum(){
   var s = summary();
