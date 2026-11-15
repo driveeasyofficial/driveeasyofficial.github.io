@@ -63,4 +63,7 @@ a{color:var(--accent2)}
 table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
 th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}th{background:var(--soft)}
 .ph{aspect-ratio:4/3;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;color:var(--muted);font-size:14px;text-align:center;padding:8px}
+.gallery-item{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.gallery-item img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.gallery-item figcaption{padding:10px 12px;color:var(--muted);font-size:14px}
 .btn-link{display:inline-block;margin-top:12px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:12px}

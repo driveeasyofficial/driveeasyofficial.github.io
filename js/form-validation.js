@@ -3,7 +3,7 @@ function validateFields(ids){
   var ok=true;
   ids.forEach(function(id){
     var el=document.getElementById(id);
-    var bad=!el.value.trim();
+    var bad=!el.value.trim()||(el.type==="email"&&!el.validity.valid);
     el.style.borderColor=bad?"var(--accent)":"";
     if(bad)ok=false;
   });

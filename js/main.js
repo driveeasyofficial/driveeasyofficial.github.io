@@ -105,6 +105,7 @@ function bookingDetails(){
     Course:s.plan,
     Fee:rs(s.price),
     Name:$("name").value.trim(),
+    email:$("email").value.trim(),
     Mobile:$("phone").value.trim(),
     "Pickup spot / landmark":pickup,
     "Full address (Google Maps)":address,
@@ -112,12 +113,12 @@ function bookingDetails(){
     "Google Maps link":mapUrl(pickup,address,city),
     "Start date":$("date").value,
     "Time slot":$("slot").value.trim()||"Any",
-    Payment:"In advance when the vehicle arrives."
+    Payment:"Course details, lesson timings, and payment QR code will be emailed after booking confirmation."
   };
 }
 $("next").onclick=function(){
   if(st.step<3){st.step++;update();window.scrollTo(0,0);return;}
-  if(!validateFields(["name","phone","pickup","addr","city","date"])){return;}
+  if(!validateFields(["name","phone","email","pickup","addr","city","date"])){return;}
   sendEnquiry(bookingDetails(),"next","sendError",function(){
     st.step=4;update();window.scrollTo(0,0);
   },"Submit booking ✉️");
@@ -134,17 +135,16 @@ function renderL(){
   Array.prototype.forEach.call($("lveh").children,function(b){b.onclick=function(){lv=+b.dataset.i;renderL();}});
 }
 function lMail(){
-  var pickup=$("lpickup").value.trim(), address=$("laddr").value.trim(), city=$("lcity").value.trim();
+  var address=$("laddr").value.trim(), city=$("lcity").value.trim();
   return {
     _subject:"Driving License Request - "+LTYPES[lt],
     Service:LTYPES[lt],
     Vehicle:LVEH[lv],
     Name:$("lname").value.trim(),
+    email:$("lemail").value.trim(),
     Mobile:$("lphone").value.trim(),
-    "Pickup spot / landmark":pickup,
     "Full address (Google Maps)":address,
     "City / Area":city,
-    "Google Maps link":mapUrl(pickup,address,city),
     Note:$("lnote").value.trim()||"-"
   };
 }
@@ -157,7 +157,7 @@ function tab(lic){
 $("tabDrive").onclick=function(){tab(false)};
 $("tabLic").onclick=function(){tab(true)};
 $("lsubmit").onclick=function(){
-  if(!validateFields(["lname","lphone","lpickup","laddr","lcity"]))return;
+  if(!validateFields(["lname","lphone","lemail","laddr","lcity"]))return;
   sendEnquiry(lMail(),"lsubmit","licenseSendError",function(){
     $("lic").classList.add("hidden");$("lok").classList.remove("hidden");window.scrollTo(0,0);
   },"Submit request ✉️");
