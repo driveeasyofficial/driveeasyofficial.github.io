@@ -1,15 +1,38 @@
-// Contact page form -> opens email app addressed to the school
 (function(){
   var OWNER_EMAIL="ssachinsharma0108@gmail.com";
   var btn=document.getElementById("csubmit");
   if(!btn)return;
-  function link(){
-    var body="Name: "+document.getElementById("cname").value.trim()+"\nMobile: "+document.getElementById("cphone").value.trim()+"\n\n"+document.getElementById("cmsg").value.trim();
-    return "mailto:"+OWNER_EMAIL+"?subject="+encodeURIComponent("Website enquiry – DriveEasy")+"&body="+encodeURIComponent(body);
-  }
   btn.addEventListener("click",function(){
     if(!validateFields(["cname","cphone","cmsg"]))return;
-    window.location.href=link();
-    document.getElementById("cdone").classList.remove("hidden");
+    var error=document.getElementById("contactSendError");
+    var done=document.getElementById("cdone");
+    var fields={
+      _subject:"Website enquiry - DriveEasy",
+      Name:document.getElementById("cname").value.trim(),
+      Mobile:document.getElementById("cphone").value.trim(),
+      Message:document.getElementById("cmsg").value.trim()
+    };
+    btn.disabled=true;
+    btn.textContent="Sending...";
+    error.classList.add("hidden");
+    done.classList.add("hidden");
+    fetch("https://formsubmit.co/ajax/"+OWNER_EMAIL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify(fields)
+    }).then(function(response){
+      return response.json().then(function(data){
+        if(!response.ok||(data.success!==true&&data.success!=="true"))throw new Error("Email service rejected the enquiry");
+      });
+    }).then(function(){
+      done.classList.remove("hidden");
+      btn.form.reset();
+    }).catch(function(){
+      error.textContent="Your request could not be sent. Please check your internet connection and try again.";
+      error.classList.remove("hidden");
+    }).then(function(){
+      btn.disabled=false;
+      btn.textContent="Send ✉️";
+    });
   });
 })();
